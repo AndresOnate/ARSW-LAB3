@@ -67,6 +67,11 @@ Producer:
 
 ![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/0b9498d6-ebff-4504-8c4d-359ddb73c58a)
 
+Limite de Stock:
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/215810f0-f53d-45e1-be71-61721ccacbec)
+
+
 ##### Parte II. – Avance para el jueves, antes de clase.
 
 Sincronización y Dead-Locks.
