@@ -17,9 +17,53 @@ Se están ejecutando dos hilos, mientras un hilo productor agrega a una cola un 
 
 2. Haga los ajustes necesarios para que la solución use más eficientemente la CPU, teniendo en cuenta que -por ahora- la producción es lenta y el consumo es rápido. Verifique con JVisualVM que el consumo de CPU se reduzca.
 
+Se realizaron ajustes a las clases productor y consumidor haciendo uso de los metodos wait() y notifyAll(), lo que resultó en una solución más eficiente:
 
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/5e045ecd-70ad-4a27-9f6c-f9b2a27f1f91)
 
 4. Haga que ahora el productor produzca muy rápido, y el consumidor consuma lento. Teniendo en cuenta que el productor conoce un límite de Stock (cuantos elementos debería tener, a lo sumo en la cola), haga que dicho límite se respete. Revise el API de la colección usada como cola para ver cómo garantizar que dicho límite no se supere. Verifique que, al poner un límite pequeño para el 'stock', no haya consumo alto de CPU ni errores.
+
+Encontramos que existe una sobrecarga para el constructor, que permite definir la capacidad fija de la cola:
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/b3f5add5-f604-4f10-a777-2a1fe1f0297f)
+
+Modificamos los hilos para que el productor no tenga un tiempo determinado de producción (Por defecto estaba en 1 segundo) y el consumidor tendra que esperar cada 2 segundos para consumir un solo elemento de la cola.
+
+Consumer:
+```
+            synchronized (queue) {
+                try {
+                    while (queue.isEmpty())
+                    {
+                        queue.wait();
+                    }
+                    Thread.sleep(2000);
+                    int elem=queue.poll();
+                    System.out.println("Consumer consumes "+elem);
+                    queue.notifyAll();
+                }catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+```
+Producer:
+```
+            synchronized (queue) {
+                try {
+                    while (queue.size() == this.stockLimit)
+                    {
+                        queue.wait();
+                    }
+                    dataSeed = dataSeed + rand.nextInt(100);
+                    queue.add(dataSeed);
+                    System.out.println("Producer added " + dataSeed);
+                    queue.notifyAll();
+                }catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+```
 
 ##### Parte II. – Avance para el jueves, antes de clase.
 
