@@ -11,6 +11,8 @@ Control de hilos con wait/notify. Productor/consumidor.
 
 1. Revise el funcionamiento del programa y ejecútelo. Mientras esto ocurren, ejecute jVisualVM y revise el consumo de CPU del proceso correspondiente. A qué se debe este consumo?, cual es la clase responsable?
 
+Podemos apreciar un alto consumo de CPU (12,2%):
+
 ![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/b3712055-e0ee-458a-b400-fa5e25d57616)
 
 Se están ejecutando dos hilos, mientras un hilo productor agrega a una cola un elemento cada segundo, el otro consume todo lo que pueda en un while infinito. La clase Consumer es la respondable de este consumo de CPU, no espera algun tiempo determinado a que el productor tenga algo de "stock" en la cola.
@@ -21,7 +23,7 @@ Se realizaron ajustes a las clases productor y consumidor haciendo uso de los me
 
 ![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/5e045ecd-70ad-4a27-9f6c-f9b2a27f1f91)
 
-4. Haga que ahora el productor produzca muy rápido, y el consumidor consuma lento. Teniendo en cuenta que el productor conoce un límite de Stock (cuantos elementos debería tener, a lo sumo en la cola), haga que dicho límite se respete. Revise el API de la colección usada como cola para ver cómo garantizar que dicho límite no se supere. Verifique que, al poner un límite pequeño para el 'stock', no haya consumo alto de CPU ni errores.
+3. Haga que ahora el productor produzca muy rápido, y el consumidor consuma lento. Teniendo en cuenta que el productor conoce un límite de Stock (cuantos elementos debería tener, a lo sumo en la cola), haga que dicho límite se respete. Revise el API de la colección usada como cola para ver cómo garantizar que dicho límite no se supere. Verifique que, al poner un límite pequeño para el 'stock', no haya consumo alto de CPU ni errores.
 
 Encontramos que existe una sobrecarga para el constructor, que permite definir la capacidad fija de la cola:
 
@@ -64,10 +66,11 @@ Producer:
                 }
             }
 ```
+Uso más eficientemente la CPU:
 
 ![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/0b9498d6-ebff-4504-8c4d-359ddb73c58a)
 
-Limite de Stock:
+Limite de Stock pequeño:
 
 ![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/215810f0-f53d-45e1-be71-61721ccacbec)
 
