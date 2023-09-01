@@ -89,8 +89,22 @@ Sincronización y Dead-Locks.
 	* El juego podría nunca tener un único ganador. Lo más probable es que al final sólo queden dos, peleando indefinidamente quitando y sumando puntos de vida.
 
 2. Revise el código e identifique cómo se implemento la funcionalidad antes indicada. Dada la intención del juego, un invariante debería ser que la sumatoria de los puntos de vida de todos los jugadores siempre sea el mismo(claro está, en un instante de tiempo en el que no esté en proceso una operación de incremento/reducción de tiempo). Para este caso, para N jugadores, cual debería ser este valor?.
-
+```
+Para N jugadores
+V = Vida para cada juegador. 
+Valor del Invariante= N*V
+```
 3. Ejecute la aplicación y verifique cómo funcionan las opción ‘pause and check’. Se cumple el invariante?.
+
+Podemos apreciar que la Opción ‘pause and check’ no detiene la ejecución del programa. El invariante no se cumple:
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/6f873668-8583-43ff-b213-216dc5346043)
+
+Al volver a dar clic en el botón:
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/1756da1d-c63d-4e49-81b1-731c494be6ba)
+
+
 
 4. Una primera hipótesis para que se presente la condición de carrera para dicha función (pause and check), es que el programa consulta la lista cuyos valores va a imprimir, a la vez que otros hilos modifican sus valores. Para corregir esto, haga lo que sea necesario para que efectivamente, antes de imprimir los resultados actuales, se pausen todos los demás hilos. Adicionalmente, implemente la opción ‘resume’.
 
