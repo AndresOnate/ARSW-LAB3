@@ -100,11 +100,7 @@ Podemos apreciar que la Opción ‘pause and check’ no detiene la ejecución d
 
 ![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/6f873668-8583-43ff-b213-216dc5346043)
 
-Al volver a dar clic en el botón:
-
-![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/1756da1d-c63d-4e49-81b1-731c494be6ba)
-
-
+ La sumatoria de los puntos de vida de todos los jugadores deberia ser 300.
 
 4. Una primera hipótesis para que se presente la condición de carrera para dicha función (pause and check), es que el programa consulta la lista cuyos valores va a imprimir, a la vez que otros hilos modifican sus valores. Para corregir esto, haga lo que sea necesario para que efectivamente, antes de imprimir los resultados actuales, se pausen todos los demás hilos. Adicionalmente, implemente la opción ‘resume’.
 
