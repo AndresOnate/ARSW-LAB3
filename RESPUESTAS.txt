@@ -1,2 +1,1 @@
-Sí, eliminar inmortales muertos de la simulación puede crear una condición de carrera, si varios hilos intentan eliminar inmortales muertos al mismo tiempo, 
-lo que podría resultar en problemas de concurrencia.
+Eliminar inmortales muertos de la simulación puede crear una condición de carrera, dado que si varios hilos intentan eliminar inmortales muertos al mismo tiempo podría resultar en problemas de concurrencia.
