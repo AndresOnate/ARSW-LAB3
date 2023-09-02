@@ -136,7 +136,56 @@ Suma:620
 	}
 	```
 
+Se identifica una región critica en el método fight(Immortal i2):
+
+```
+    public void fight(Immortal i2) {
+
+        if (i2.getHealth() > 0) {
+            i2.changeHealth(i2.getHealth() - defaultDamageValue);
+            this.health += defaultDamageValue;
+            updateCallback.processReport("Fight: " + this + " vs " + i2+"\n");
+        } else {
+            updateCallback.processReport(this + " says:" + i2 + " is already dead!\n");
+        }
+
+    }
+```
+
+Ambos inmortales intentan cambiar la salud del otro, lo que puede causar problemas de concurrencia. Haciendo uso bloques sincronizados anidados aseguramos la región critica:
+
+```
+    public void fight(Immortal i2) {
+        synchronized (this) {
+            synchronized (i2) {
+                if (i2.getHealth() > 0) {
+                    i2.changeHealth(i2.getHealth() - defaultDamageValue);
+                    this.health += defaultDamageValue;
+                    updateCallback.processReport("Fight: " + this + " vs " + i2 + "\n");
+                } else {
+                    updateCallback.processReport(this + " says: " + i2 + " is already dead!\n");
+                }
+            }
+        }
+    }
+
+```
+
 8. Tras implementar su estrategia, ponga a correr su programa, y ponga atención a si éste se llega a detener. Si es así, use los programas jps y jstack para identificar por qué el programa se detuvo.
+
+Confirmamos que el programa se detiene, posiblemente se trata de un deadlock.
+Ejecutamos jps para obtener el ID del proceso Java:
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/c1f6ff2b-1f32-4276-81b6-c48f7805720f)
+
+jstack proporcionará información sobre los hilos en ejecución y sus estados actuales. 
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/8589984f-a391-4a3d-b653-186dccec047f)
+
+Confirmamos que se trata de un deadlock:
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/6e43ba5a-c517-4136-b0da-be4106af0814)
+
 
 9. Plantee una estrategia para corregir el problema antes identificado (puede revisar de nuevo las páginas 206 y 207 de _Java Concurrency in Practice_).
 
