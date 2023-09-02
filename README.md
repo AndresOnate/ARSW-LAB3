@@ -237,9 +237,10 @@ Se implementa la estrategia presentada en el texto.
 
 1000 inmortales, la sumatoria debe ser 100000:
 
-![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/f15dbf62-1aad-4df5-a94e-a26a24a8cf0a)
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/55282399-5623-486c-936e-5c9414cee1e1)
 
-![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/22e2d779-a84e-42ae-8456-9e520d3861db)
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/30c1eb72-abca-42a2-a994-8900fa5cacc9)
+
 
 10000 inmortales, la sumatoria debe ser 1000000:
 
