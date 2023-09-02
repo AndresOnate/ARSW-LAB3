@@ -189,7 +189,64 @@ Confirmamos que se trata de un deadlock:
 
 9. Plantee una estrategia para corregir el problema antes identificado (puede revisar de nuevo las páginas 206 y 207 de _Java Concurrency in Practice_).
 
+"A program will be free of lock-ordering deadlocks if all threads acquirethe locks they need in a fixed global order."
+
+"One way to induce an ordering on objects is to use System.identityHashCode,which returns the value that would be returned by Object.hashCode"
+
+Se implementa la estrategia presentada en el texto.
+
+```
+    public void fight(Immortal i2) {
+        int currentImmortal = System.identityHashCode(this);
+        int secondImmortal = System.identityHashCode(i2);
+        if(currentImmortal < secondImmortal){
+            synchronized (this) {
+                synchronized (i2) {
+                    if (i2.getHealth() > 0) {
+                        i2.changeHealth(i2.getHealth() - defaultDamageValue);
+                        this.health += defaultDamageValue;
+                        updateCallback.processReport("Fight: " + this + " vs " + i2 + "\n");
+                    } else {
+                        updateCallback.processReport(this + " says: " + i2 + " is already dead!\n");
+                    }
+                }
+            }
+        }else{
+            synchronized (i2) {
+                synchronized (this) {
+                    if (i2.getHealth() > 0) {
+                        i2.changeHealth(i2.getHealth() - defaultDamageValue);
+                        this.health += defaultDamageValue;
+                        updateCallback.processReport("Fight: " + this + " vs " + i2 + "\n");
+                    } else {
+                        updateCallback.processReport(this + " says: " + i2 + " is already dead!\n");
+                    }
+                }
+            }
+        }
+    }
+
+```
 10. Una vez corregido el problema, rectifique que el programa siga funcionando de manera consistente cuando se ejecutan 100, 1000 o 10000 inmortales. Si en estos casos grandes se empieza a incumplir de nuevo el invariante, debe analizar lo realizado en el paso 4.
+
+100 inmortales, la sumatoria debe ser 10000:
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/4d10f0f0-08f8-4218-a53d-30f5b5275959)
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/b2778b78-81ef-4738-896f-58731cd1e276)
+
+1000 inmortales, la sumatoria debe ser 100000:
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/f15dbf62-1aad-4df5-a94e-a26a24a8cf0a)
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/22e2d779-a84e-42ae-8456-9e520d3861db)
+
+10000 inmortales, la sumatoria debe ser 1000000:
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/bffe1cde-9407-41b0-a78e-c35221edf008)
+
+![image](https://github.com/AndresOnate/ARSW-LAB3/assets/63562181/955467fb-1f32-48c6-9c44-80cc69d0bc26)
+
 
 11. Un elemento molesto para la simulación es que en cierto punto de la misma hay pocos 'inmortales' vivos realizando peleas fallidas con 'inmortales' ya muertos. Es necesario ir suprimiendo los inmortales muertos de la simulación a medida que van muriendo. Para esto:
 	* Analizando el esquema de funcionamiento de la simulación, esto podría crear una condición de carrera? Implemente la funcionalidad, ejecute la simulación y observe qué problema se presenta cuando hay muchos 'inmortales' en la misma. Escriba sus conclusiones al respecto en el archivo RESPUESTAS.txt.
