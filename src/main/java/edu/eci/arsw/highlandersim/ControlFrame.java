@@ -91,7 +91,12 @@ public class ControlFrame extends JFrame {
                 /*
 				 * COMPLETAR
                  */
+
+
                 int sum = 0;
+                for (Immortal im : immortals) {
+                    im.stopImmortal();
+                }
                 for (Immortal im : immortals) {
                     sum += im.getHealth();
                 }
@@ -108,9 +113,13 @@ public class ControlFrame extends JFrame {
 
         btnResume.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                /**
-                 * IMPLEMENTAR
-                 */
+                for (Immortal im : immortals) {
+                    im.resumeImmortal();
+                }
+                Object lock  = immortals.get(0).getLock();
+                synchronized (lock) {
+                    lock.notifyAll();
+                }
 
             }
         });
@@ -129,6 +138,15 @@ public class ControlFrame extends JFrame {
         btnStop.setForeground(Color.RED);
         toolBar.add(btnStop);
 
+        btnStop.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (Immortal im : immortals) {
+                    im.stopImmortal();
+                }
+                btnStart.setEnabled(true);
+            }
+        });
+
         scrollPane = new JScrollPane();
         contentPane.add(scrollPane, BorderLayout.CENTER);
 
@@ -145,6 +163,7 @@ public class ControlFrame extends JFrame {
     public List<Immortal> setupInmortals() {
 
         ImmortalUpdateReportCallback ucb=new TextAreaUpdateReportCallback(output,scrollPane);
+        Object lock = new Object();
         
         try {
             int ni = Integer.parseInt(numOfImmortals.getText());
@@ -152,7 +171,7 @@ public class ControlFrame extends JFrame {
             List<Immortal> il = new LinkedList<Immortal>();
 
             for (int i = 0; i < ni; i++) {
-                Immortal i1 = new Immortal("im" + i, il, DEFAULT_IMMORTAL_HEALTH, DEFAULT_DAMAGE_VALUE,ucb);
+                Immortal i1 = new Immortal("im" + i, il, DEFAULT_IMMORTAL_HEALTH, DEFAULT_DAMAGE_VALUE,ucb, lock);
                 il.add(i1);
             }
             return il;
