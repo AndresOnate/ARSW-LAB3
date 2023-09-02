@@ -254,6 +254,17 @@ Se implementa la estrategia presentada en el texto.
 
 13. Para finalizar, implemente la opción STOP.
 
+```
+        btnStop.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (Immortal im : immortals) {
+                    im.stopImmortal();
+                }
+                btnStart.setEnabled(true);
+            }
+        });
+```
+
 <!--
 ### Criterios de evaluación
 
