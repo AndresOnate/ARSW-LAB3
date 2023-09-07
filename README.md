@@ -259,9 +259,10 @@ Se implementa la estrategia presentada en el texto.
         btnStop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 for (Immortal im : immortals) {
-                    im.stopImmortal();
+                    im.killImmortal();
                 }
                 btnStart.setEnabled(true);
+                immortals.clear();
             }
         });
 ```
